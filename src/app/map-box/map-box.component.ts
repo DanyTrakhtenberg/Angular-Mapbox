@@ -1,9 +1,9 @@
 import { environment } from "./../../environments/environment";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 import * as mapboxgl from "mapbox-gl";
 import { MapService } from "../map.service";
 import { GeoJson, FeatureCollection } from "../map";
-import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+import * as MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 
 @Component({
   selector: "app-map-box",
@@ -11,6 +11,8 @@ import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
   styleUrls: ["./map-box.component.css"]
 })
 export class MapBoxComponent implements OnInit {
+  @Output() notifyMap: EventEmitter<mapboxgl.Map> = new EventEmitter();
+
   /// default settings
   map: mapboxgl.Map;
   style = "mapbox://styles/mapbox/outdoors-v9";
@@ -32,17 +34,6 @@ export class MapBoxComponent implements OnInit {
 
   private initializeMap() {
     /// locate the user
-   // mapboxgl.accessToken = environment.mapboxgl.accessToken;
-    // if (navigator.geolocation) {
-    //    navigator.geolocation.getCurrentPosition(position => {
-    //     this.lat = position.coords.latitude;
-    //     this.lng = position.coords.longitude;
-    //     this.map.flyTo({
-    //       center: [this.lng, this.lat]
-    //     })
-    //   });
-    // }
-
     this.buildMap();
   }
 
@@ -54,35 +45,22 @@ export class MapBoxComponent implements OnInit {
       center: [-74.5, 40], // starting position [lng, lat]
       zoom: 9 // starting zoom
     });
+    this.notifyMap.emit(this.map);
+    // this.map.addControl(
+    //   new MapboxGeocoder({
+    //     accessToken: environment.mapboxgl.accessToken
+    //   })
+    // );
+    // var geocoder = new MapboxGeocoder({
+    //   accessToken: environment.mapboxgl.accessToken
+    // });
 
-    this.map.addControl(
-      new MapboxGeocoder({
-        accessToken: environment.mapboxgl.accessToken
-
-      })
-    );
-
+    // document.getElementById("geocoder").appendChild(geocoder.onAdd(this.map));
     /// Add map controls
     // this.map.addControl(new mapboxgl.NavigationControl());
 
-    // //// Add Marker on Click
-    // this.map.on('click', (event) => {
-    //   const coordinates = [event.lngLat.lng, event.lngLat.lat]
-    //   const newMarker   = new GeoJson(coordinates, { message: this.message })
-    //  // this.mapService.createMarker(newMarker)
-    // })
-
-    /// Add realtime firebase data on map load
-    // this.map.on('load', (event) => {
-
-    //   /// register source
-    //   this.map.addSource('firebase', {
-    //      type: 'geojson',
-    //      data: {
-    //        type: 'FeatureCollection',
-    //        features: []
-    //      }
-    //   });
+    //Add realtime firebase data on map load
+    this.map.on("load", event => {});
 
     //   /// get source
     //  // this.source = this.map.getSource('firebase')

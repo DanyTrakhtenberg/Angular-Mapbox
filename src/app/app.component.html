@@ -5,8 +5,8 @@
 <router-outlet></router-outlet>
 
 
- <app-side-bar class="sidebar pad2"></app-side-bar>
-<app-map-box  class='map pad2'></app-map-box>
+ <app-side-bar [map]="map" class="sidebar"></app-side-bar>
+<app-map-box (notifyMap)="getMap($event)"  class='map'></app-map-box>
 
 
 
