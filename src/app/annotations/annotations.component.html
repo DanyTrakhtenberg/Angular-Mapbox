@@ -1,0 +1,26 @@
+<div class="frame">
+  <p>Select what to draw</p>
+  <button type="button" class="btn btn-primary" (click)="chooseShape('draw_polygon')">Polygon</button>
+  <button type="button" class="btn btn-primary" (click)="chooseShape('draw_line_string')">Line</button>
+  <button type="button" class="btn btn-primary" (click)="chooseShape('draw_point')">Point</button>
+</div>
+
+
+<div id="listings" class="listings">
+  <div *ngFor="let item of annotations | keyvalue; let i = index"
+       class="item"
+       [attr.id]="item.key"
+       [class.active]="selectedShape === item.key">
+    <a href="#"
+       class="title"
+       (click)="moveToFeature(item.value)">
+      {{item.value.geometry.type}}
+    </a>
+    <!-- <div>
+      {{item.properties.city + ' &middot; ' + item.properties.phoneFormatted}}
+    </div> -->
+  </div>
+</div>
+
+
+

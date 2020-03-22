@@ -7,8 +7,10 @@ import { MapBoxComponent } from "./map-box/map-box.component";
 import { SideBarComponent } from "./side-bar/side-bar.component";
 import { SearchComponent } from './search/search.component';
 
+import { AnnotationsComponent } from './annotations/annotations.component';
+
 @NgModule({
-  declarations: [AppComponent, MapBoxComponent, SideBarComponent, SearchComponent],
+  declarations: [AppComponent, MapBoxComponent, SideBarComponent, SearchComponent, AnnotationsComponent],
   imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent]

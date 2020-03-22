@@ -1,9 +1,10 @@
 import { environment } from "./../../environments/environment";
 import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 import * as mapboxgl from "mapbox-gl";
-import { MapService } from "../map.service";
-import { GeoJson, FeatureCollection } from "../map";
-import * as MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+//import * as MapboxDraw from "@mapbox/mapbox-gl-draw";
+ import * as MapboxDraw from "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw";
+
+
 
 @Component({
   selector: "app-map-box",
@@ -15,6 +16,7 @@ export class MapBoxComponent implements OnInit {
 
   /// default settings
   map: mapboxgl.Map;
+  draw: MapboxDraw;
   style = "mapbox://styles/mapbox/outdoors-v9";
   lat = 37.75;
   lng = -122.41;
@@ -46,58 +48,24 @@ export class MapBoxComponent implements OnInit {
       zoom: 9 // starting zoom
     });
     this.notifyMap.emit(this.map);
-    // this.map.addControl(
-    //   new MapboxGeocoder({
-    //     accessToken: environment.mapboxgl.accessToken
-    //   })
-    // );
-    // var geocoder = new MapboxGeocoder({
-    //   accessToken: environment.mapboxgl.accessToken
+
+    // this.draw = new MapboxDraw({
+    //   displayControlsDefault: true,
+    //   controls: {
+    //     polygon: true,
+    //     trash: true,
+    //     lineString : true,
+    //     point: true
+
+    //   }
     // });
 
-    // document.getElementById("geocoder").appendChild(geocoder.onAdd(this.map));
-    /// Add map controls
-    // this.map.addControl(new mapboxgl.NavigationControl());
+    // this.map.addControl(this.draw);
+    this.map.on("load", event => {
+      // this.draw.changeMode("draw_polygon");
 
-    //Add realtime firebase data on map load
-    this.map.on("load", event => {});
-
-    //   /// get source
-    //  // this.source = this.map.getSource('firebase')
-
-    //   /// subscribe to realtime database and set data source
-    //   // this.markers.subscribe(markers => {
-    //   //     let data = new FeatureCollection(markers)
-    //   //     this.source.setData(data)
-    //   // })
-
-    //   /// create map layers with realtime data
-    //   this.map.addLayer({
-    //     id: 'firebase',
-    //     source: 'firebase',
-    //     type: 'symbol',
-    //     layout: {
-    //       'text-field': '{message}',
-    //       'text-size': 24,
-    //       'text-transform': 'uppercase',
-    //       'icon-image': 'rocket-15',
-    //       'text-offset': [0, 1.5]
-    //     },
-    //     paint: {
-    //       'text-color': '#f16624',
-    //       'text-halo-color': '#fff',
-    //       'text-halo-width': 2
-    //     }
-    //   })
-
-    // })
+    });
   }
-
-  /// Helpers
-
-  // removeMarker(marker) {
-  //   this.mapService.removeMarker(marker.$key)
-  // }
 
   // flyTo(data: GeoJson) {
   //   this.map.flyTo({
