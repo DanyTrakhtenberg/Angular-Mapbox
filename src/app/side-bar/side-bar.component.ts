@@ -18,13 +18,6 @@ export class SideBarComponent implements OnInit, AfterContentInit {
   @Input() map: mapboxgl.Map;
   constructor() {}
 
-  ngAfterContentInit() {
-    // setTimeout(() => {
-    //   var geocoder = new MapboxGeocoder({
-    //     accessToken: environment.mapboxgl.accessToken
-    //   });
-    //   document.getElementById("geocoder").appendChild(geocoder.onAdd(this.map));
-    // });
-  }
+  ngAfterContentInit() {}
   ngOnInit() {}
 }

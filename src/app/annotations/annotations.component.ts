@@ -1,11 +1,10 @@
-import { GeoJson, FeatureCollection } from "./../map";
 import { Component, OnInit, Input } from "@angular/core";
 import * as MapboxDraw from "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw";
 import * as mapboxgl from "mapbox-gl";
 import { DATA } from "src/assets/Data";
 import { Feature } from "geojson";
-import * as leafset from "leaflet";
 import * as turf from "@turf/turf";
+
 
 @Component({
   selector: "app-annotations",
@@ -20,39 +19,52 @@ export class AnnotationsComponent implements OnInit {
   constructor() {
     this.annotations = DATA;
   }
-
   ngOnInit() {}
   ngAfterContentInit() {
     setTimeout(() => {
       this.draw = new MapboxDraw({
-        displayControlsDefault: true,
+        displayControlsDefault: false,
         controls: {
-          polygon: true,
-          trash: true,
-          lineString: true,
-          point: true
+          trash: true
         }
       });
-
+      this.map.on("load", () => {
+        for (const key in this.annotations) {
+          if (this.annotations.hasOwnProperty(key)) {
+            const element = this.annotations[key];
+            this.draw.add(element);
+          }
+        }
+      });
       this.map.on("draw.create", e => {
         const feature = e.features[0];
         this.annotations[feature.id] = feature;
       });
-      this.map.addControl(this.draw);
-      // this.map.on('draw.create', function (e) {
+      this.map.on("draw.selectionchange", e => {
+        if (e.features.length !== 0) {
+          this.selectedShape = e.features[0].id;
+        }
+      });
+      this.map.on("draw.delete", e => {
+        for (const feature of e.features) {
+          delete this.annotations[feature.id];
+        }
+      });
 
-      //   console.log(e.features);
-      // });
+      this.map.addControl(this.draw);
     });
+  }
+  removeShape(id: string) {
+    delete this.annotations[id];
+    this.draw.delete(id);
   }
 
   moveToFeature(currentFeature: Feature) {
     if (currentFeature.geometry.type === "Point") {
       this.flyToPoint(currentFeature);
     } else if (currentFeature.geometry.type === "LineString") {
-      // Geographic coordinates of the LineString
-      var coordinates = currentFeature.geometry.coordinates as any;
-      var bounds = coordinates.reduce(function(bounds, coord) {
+      let coordinates = currentFeature.geometry.coordinates as any;
+      let bounds = coordinates.reduce(function(bounds, coord) {
         return bounds.extend(coord as any);
       }, new mapboxgl.LngLatBounds(
         coordinates[0] as any,
@@ -71,12 +83,10 @@ export class AnnotationsComponent implements OnInit {
     this.selectedShape = currentFeature.id as string;
   }
 
-  flyToLineString(currentFeature: Feature) {}
-
   flyToPoint(currentFeature) {
     this.map.flyTo({
       center: currentFeature.geometry.coordinates,
-      zoom: 15
+      zoom: 20
     });
   }
 
