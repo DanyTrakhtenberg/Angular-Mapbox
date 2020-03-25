@@ -1,4 +1,4 @@
-import { GeoJson } from "src/app/map";
+
 import { Feature } from "geojson";
 
 export const DATA: { [id: string]: Feature } = {

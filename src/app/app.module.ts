@@ -8,10 +8,14 @@ import { SideBarComponent } from "./side-bar/side-bar.component";
 import { SearchComponent } from './search/search.component';
 
 import { AnnotationsComponent } from './annotations/annotations.component';
+import { StoreModule } from '@ngrx/store';
+import { annotationsReducer } from './store/annotations.reducers';
 
 @NgModule({
   declarations: [AppComponent, MapBoxComponent, SideBarComponent, SearchComponent, AnnotationsComponent],
-  imports: [BrowserModule, AppRoutingModule, FormsModule],
+  imports: [BrowserModule, AppRoutingModule, FormsModule,
+    StoreModule.forRoot({annotations: annotationsReducer}),
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

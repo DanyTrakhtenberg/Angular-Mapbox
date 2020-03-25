@@ -4,7 +4,8 @@ import * as mapboxgl from "mapbox-gl";
 import { DATA } from "src/assets/Data";
 import { Feature } from "geojson";
 import * as turf from "@turf/turf";
-
+import { Store } from "@ngrx/store";
+import { AppState } from "../app.state";
 
 @Component({
   selector: "app-annotations",
@@ -16,8 +17,12 @@ export class AnnotationsComponent implements OnInit {
   draw: MapboxDraw;
   annotations: { [id: string]: Feature };
   selectedShape: string;
-  constructor() {
-    this.annotations = DATA;
+  constructor(private store: Store<AppState>) {
+    this.store
+      .select(state => state.annotations)
+      .subscribe(e => {
+        this.annotations = e;
+      });
   }
   ngOnInit() {}
   ngAfterContentInit() {
@@ -38,7 +43,11 @@ export class AnnotationsComponent implements OnInit {
       });
       this.map.on("draw.create", e => {
         const feature = e.features[0];
-        this.annotations[feature.id] = feature;
+        // this.annotations[feature.id] = feature;
+        this.store.dispatch({
+          type: "ADD_FEATURE",
+          payload: feature
+        });
       });
       this.map.on("draw.selectionchange", e => {
         if (e.features.length !== 0) {
@@ -47,7 +56,7 @@ export class AnnotationsComponent implements OnInit {
       });
       this.map.on("draw.delete", e => {
         for (const feature of e.features) {
-          delete this.annotations[feature.id];
+          this.removeShape(feature.id);
         }
       });
 
@@ -55,7 +64,10 @@ export class AnnotationsComponent implements OnInit {
     });
   }
   removeShape(id: string) {
-    delete this.annotations[id];
+    this.store.dispatch({
+      type: "REMOVE_FEATURE",
+      payload: id
+    });
     this.draw.delete(id);
   }
 

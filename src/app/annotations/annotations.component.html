@@ -7,7 +7,7 @@
 
 
 <h5 style="margin-top: 20px;">List of annotations:</h5>
-<div id="listings" class="listings">
+<div id="listings" class="listings scroll">
   <div *ngFor="let item of annotations | keyvalue; let i = index"
        class="item"
        [attr.id]="item.key"

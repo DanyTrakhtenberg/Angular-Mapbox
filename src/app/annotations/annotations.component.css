@@ -26,6 +26,7 @@ margin: 0 5px;
 }
 
 .listings .item .title {
+  font-size: 1.2em;
   display: block;
   color: #00853e;
   font-weight: 700;
@@ -42,4 +43,13 @@ margin: 0 5px;
 
 .listings .item.active {
   background-color: #f8f8f8;
+}
+
+
+.scroll#listings  {
+  padding:4px;
+  height: 400px;
+  overflow-x: hidden;
+  overflow-x: auto;
+  text-align:justify;
 }
