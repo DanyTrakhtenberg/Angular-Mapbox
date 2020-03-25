@@ -21,6 +21,11 @@ margin: 0 5px;
   text-decoration: none;
 }
 
+.listings .active button {
+
+ background-color: #8cc63f ;
+}
+
 .listings .item:last-child {
   border-bottom: none;
 }
@@ -39,6 +44,7 @@ margin: 0 5px;
 .listings .item.active .title,
 .listings .item .title:hover {
   color: #8cc63f;
+  background-color:black;
 }
 
 .listings .item.active {

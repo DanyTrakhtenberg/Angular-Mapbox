@@ -1,10 +1,6 @@
 import { environment } from "./../../environments/environment";
 import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 import * as mapboxgl from "mapbox-gl";
-//import * as MapboxDraw from "@mapbox/mapbox-gl-draw";
- import * as MapboxDraw from "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw";
-
-
 
 @Component({
   selector: "app-map-box",
@@ -31,7 +27,5 @@ export class MapBoxComponent implements OnInit {
       zoom: 9
     });
     this.notifyMap.emit(this.map);
-
   }
-
 }

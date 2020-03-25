@@ -8,19 +8,5 @@ import * as mapboxgl from "mapbox-gl";
 })
 export class AppComponent {
   title = "mapbox-project-app";
-  map: mapboxgl.Map;
 
-  ngAfterContentInit() {
-
-
-  };
-
-
-
-  getMap(event) {
-    setTimeout(() => {
-      this.map = event;
-  });
-
-  }
 }

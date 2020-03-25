@@ -10,9 +10,10 @@ import { SearchComponent } from './search/search.component';
 import { AnnotationsComponent } from './annotations/annotations.component';
 import { StoreModule } from '@ngrx/store';
 import { annotationsReducer } from './store/annotations.reducers';
+import { MapboxTaskComponent } from './mapbox-task/mapbox-task.component';
 
 @NgModule({
-  declarations: [AppComponent, MapBoxComponent, SideBarComponent, SearchComponent, AnnotationsComponent],
+  declarations: [AppComponent, MapBoxComponent, SideBarComponent, SearchComponent, AnnotationsComponent, MapboxTaskComponent],
   imports: [BrowserModule, AppRoutingModule, FormsModule,
     StoreModule.forRoot({annotations: annotationsReducer}),
   ],

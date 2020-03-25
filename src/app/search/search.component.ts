@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, AfterContentInit } from '@angular/core';
 import * as MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import { environment } from 'src/environments/environment';
 
@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, AfterContentInit {
   @Input() map: mapboxgl.Map;
   constructor() { }
 
@@ -17,7 +17,7 @@ export class SearchComponent implements OnInit {
 
   ngAfterContentInit() {
     setTimeout(() => {
-      var geocoder = new MapboxGeocoder({
+      const geocoder = new MapboxGeocoder({
         accessToken: environment.mapboxgl.accessToken
       });
       document.getElementById("geocoder").appendChild(geocoder.onAdd(this.map));

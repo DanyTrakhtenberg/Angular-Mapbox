@@ -12,14 +12,18 @@
        class="item"
        [attr.id]="item.key"
        [class.active]="selectedShape === item.key">
-    <a href="#"
+    <!-- <a href="/"
        class="title"
        (click)="moveToFeature(item.value)">
       {{item.value.geometry.type}}
-    </a>
- <b button type="button" class="btn btn-secondary btn-sm" (click)=" removeShape(item.key)" >
+    </a> -->
+
+    <button type="button" class="btn btn-secondary"  (click)="moveToFeature(item.value)" >
+      {{item.value.geometry.type}}
+    </button>
+ <button type="button" class="btn btn-secondary btn-sm" (click)=" removeShape(item.key)" >
    X
-</b>
+ </button>
   </div>
 </div>
 
